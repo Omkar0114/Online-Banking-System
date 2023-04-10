@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: myapp
+      POSTGRES_PASSWORD: myapp
+      POSTGRES_DB: myapp_development
+
+  web:
+    build: .
+    restart: always
+    volumes:
+      - .:/myapp
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db

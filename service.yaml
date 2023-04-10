@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: online-banking-system
+spec:
+  selector:
+    app: online-banking-system
+  ports:
+    - name: http
+      port: 3000
+      targetPort: 3000
+  type: LoadBalancer
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: online-banking-system
+spec:
+  selector:
+    matchLabels:
+      app: online-banking-system
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: online-banking-system
+    spec:
+      containers:
+        - name: online-banking-system
+          image: omkar0114/online-banking-system:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DATABASE_URL
+              value: "postgres://user:password@postgres:5432/online_banking_system_development"
+          readinessProbe:
+            httpGet:
+              port: 3000
+          livenessProbe:
+            httpGet:
+              port: 3000

@@ -37,7 +37,9 @@ spec:
               value: "postgres://user:password@postgres:5432/online_banking_system_development"
           readinessProbe:
             httpGet:
+              path: /healthcheck
               port: 3000
           livenessProbe:
             httpGet:
+              path: /healthcheck
               port: 3000
